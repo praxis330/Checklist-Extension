@@ -1,0 +1,16 @@
+<html ng-app="checklistApp">
+	<script src="js/lib/angular.min.js"></script>
+	<script src="js/app/app.js"></script>
+	<body ng-controller="checklistController">
+		<section id="main">
+		  <nav>
+		  	<h2>Checklist</h2>
+		  	<button class="btn" ng-click="fetchItems()">Refresh</button>
+			<ul>
+				<li ng-repeat="item in items">
+					{{ item.name }}
+				</li>
+			</ul>
+		</section>
+	</body>
+</html>
