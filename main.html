@@ -1,16 +1,27 @@
 <html ng-app="checklistApp">
-	<script src="js/lib/angular.min.js"></script>
-	<script src="js/app/app.js"></script>
-	<body ng-controller="checklistController">
-		<section id="main">
-		  <nav>
-		  	<h2>Checklist</h2>
-		  	<button class="btn" ng-click="fetchItems()">Refresh</button>
-			<ul>
-				<li ng-repeat="item in items">
-					{{ item.name }}
-				</li>
-			</ul>
-		</section>
-	</body>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/checklist/checklist-ext.css">
+  <script src="js/lib/angular.min.js"></script>
+  <script src="js/app/app.js"></script>
+  <body ng-controller="checklistController">
+    <div class="container popup">
+      <div class="row title-bar">
+        <nav>
+          <div class="title-bar-child col-xs-6">
+            <h4>Checklist</h4>
+          </div>
+          <div class="title-bar-child col-xs-6 text-right">
+            <button class="btn btn-default btn-xs" ng-click="fetchItems()">Refresh</button>
+          </div>
+        </nav>
+      </div>
+      <div class="row">
+        <ul>
+          <li ng-repeat="item in items">
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
 </html>

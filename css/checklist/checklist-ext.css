@@ -1,0 +1,15 @@
+.popup {
+	width: 250px;
+	min-height: 100px;
+}
+
+.title-bar {
+	height: 50px;
+	position: relative;
+}
+
+.title-bar-child {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);	
+}

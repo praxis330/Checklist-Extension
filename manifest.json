@@ -7,9 +7,6 @@
   	"default_title": "Checklist",
   	"default_popup": "main.html"
   },
-  "background": {
-  	"scripts": ["js/app/background.js"]
-  },
   "permissions": [
     "http://*/*",
     "https://*/*"
