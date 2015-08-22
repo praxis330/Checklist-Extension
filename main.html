@@ -7,20 +7,47 @@
     <div class="container popup">
       <div class="row title-bar">
         <nav>
-          <div class="title-bar-child col-xs-6">
+          <div class="col-xs-4">
             <h4>Checklist</h4>
           </div>
-          <div class="title-bar-child col-xs-6 text-right">
-            <button class="btn btn-default btn-xs" ng-click="fetchItems()">Refresh</button>
+          <div class="col-xs-4 col-xs-offset-4">
+            <button class="btn btn-default btn-xs popup-btn" ng-click="fetchItems()">Refresh</button>
           </div>
         </nav>
       </div>
-      <div class="row">
-        <ul>
-          <li ng-repeat="item in items">
-            {{ item.name }}
-          </li>
-        </ul>
+      <form class="form-inline popup-form" ng-submit="addTask()">
+        <div class="row">
+          <div class="col-xs-9">
+            <div class="form-group">
+              <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="newItem.name">
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr class="divider popup-line">
+      <div class="panel panel-default popup-panel" ng-repeat="item in items" ng-class="item.done == 'True' ? 'panel-success' : 'panel-danger'">
+        <div class="panel-heading popup-panel-body">
+          <div class="row">
+            <div class="col-xs-8">
+              {{ item.name }}
+            </div>
+            <div class="pull-right col-xs-4">
+              <div style="float:right">
+                <button type="button" class="btn btn-default btn-md" ng-click="completeTask(item.id)">
+                  <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(item.id)">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

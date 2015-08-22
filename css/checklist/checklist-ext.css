@@ -1,15 +1,26 @@
 .popup {
-	width: 250px;
-	min-height: 100px;
+	width: 400px;
+	min-height: 200px;
 }
 
-.title-bar {
-	height: 50px;
-	position: relative;
+.popup-btn {
+	margin-top: 8px;
+	float: right;
 }
 
-.title-bar-child {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);	
+.popup-line {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.popup-form {
+	margin-bottom: 5px;
+}
+
+.popup-panel {
+	margin-bottom: 5px;
+}
+
+.popup-panel-body {
+	padding: 5px;
 }
