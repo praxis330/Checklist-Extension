@@ -9,12 +9,16 @@
 }
 
 .popup-line {
-	margin-bottom: 5px;
-	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .popup-form {
-	margin-bottom: 5px;
+	margin-bottom: 0px;
+}
+
+.popup-form-group {
+	margin-bottom: 0px;
 }
 
 .popup-panel {
