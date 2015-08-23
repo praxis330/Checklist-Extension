@@ -4,17 +4,24 @@
   <script src="js/lib/angular.min.js"></script>
   <script src="js/app/app.js"></script>
   <body ng-controller="checklistController">
-    <div class="container popup">
+    <div class="container">
       <div class="row title-bar">
-        <nav>
-          <div class="col-xs-4">
-            <h4>Checklist</h4>
-          </div>
-          <div class="col-xs-4 col-xs-offset-4">
-            <button class="btn btn-default btn-xs popup-btn" ng-click="fetchItems()">Refresh</button>
-          </div>
-        </nav>
+        <ul class="nav nav-tabs">
+          <li role="presentation" ng-class="{active:isSet(1)}">
+            <a href='#' ng-click="setTab(1)">Checklist</a>
+          </li>
+          <li role="presentation" ng-class="{active:isSet(2)}">
+            <a href='#' ng-click="setTab(2)">Settings</a>
+          </li>
+          <li role="presentation">
+            <div class="btn-container pull-right">
+              <button class="btn btn-default popup-btn" ng-click="fetchItems()">Refresh</button>
+            </div>
+          </li>
+        </ul>
       </div>
+    </div>
+    <div class="container popup popup-hide" ng-show="isSet(1)">
       <form class="form-inline popup-form" ng-submit="addTask()">
         <div class="row">
           <div class="col-xs-9">
@@ -30,7 +37,7 @@
         </div>
       </form>
       <hr class="divider popup-line">
-      <div class="panel panel-default popup-panel" ng-repeat="item in items" ng-class="item.done == 'True' ? 'panel-success' : 'panel-danger'">
+      <div class="panel panel-default popup-panel" ng-repeat="(id, item) in items" ng-class="item.done == true ? 'panel-success' : 'panel-danger'">
         <div class="panel-heading popup-panel-body">
           <div class="row">
             <div class="col-xs-8">
@@ -38,10 +45,10 @@
             </div>
             <div class="pull-right col-xs-4">
               <div style="float:right">
-                <button type="button" class="btn btn-default btn-md" ng-click="completeTask(item.id)">
+                <button type="button" class="btn btn-default btn-md" ng-click="completeTask(id)">
                   <span class="glyphicon glyphicon-ok"></span>
                 </button>
-                <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(item.id)">
+                <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(id)">
                   <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </div>
@@ -49,6 +56,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="container popup popup-hide" ng-show="isSet(2)">
+      <input type="text" class="form-control" placeholder="Authentication" ng-model="authentication">
     </div>
   </body>
 </html>

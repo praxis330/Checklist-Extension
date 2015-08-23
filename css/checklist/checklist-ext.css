@@ -1,6 +1,7 @@
 .popup {
 	width: 400px;
-	min-height: 200px;
+	min-height: 75px;
+	margin-top: 10px;
 }
 
 .popup-btn {
@@ -27,4 +28,14 @@
 
 .popup-panel-body {
 	padding: 5px;
+}
+
+.btn-container {
+	position: relative;
+	bottom: 5px;
+	overflow: auto;
+}
+
+.popup-hide.ng-hide {
+	display: none!important;
 }

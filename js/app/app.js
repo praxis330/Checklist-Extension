@@ -1,47 +1,60 @@
 var checklistApp = angular.module('checklistApp', []);
 
-checklistApp.controller('checklistController', ['$scope', '$http', function($scope, $http) {
-  'use strict';
+checklistApp
+  .controller('checklistController', ['$scope', '$http', function($scope, $http) {
+    'use strict';
 
-  var baseurl = 'https://checklist-stage.herokuapp.com/api/checklist/tasks';
-  var auth_headers = {
-    Authorization: 'Basic '
-  }
+    $scope.items = null;
+    $scope.authentication = null;
+    $scope.currentTab = 1;
+    $scope.newItem= {};
 
-  $scope.items = null;
-  $scope.newItem= {};
+    var baseurl = 'https://checklist-stage.herokuapp.com/api/checklist/tasks';
+    var auth_headers = {
+      Authorization: 'Basic'
+    }
 
-  $scope.fetchItems = function () {
-    $http.get(baseurl, { headers: auth_headers }).then(function(response) {
-      $scope.items = response.data.tasks;
-    });
-  };
+    $scope.fetchItems = function () {
+      $http.get(baseurl, { headers: auth_headers }).then(function(response) {
+        $scope.items = response.data;
+        console.log($scope.items);
+      });
+    };
 
-  $scope.fetchItems();
+    $scope.completeTask = function(taskId) {
+      $http.put(baseurl + '/' + taskId,
+        { 'done': true },
+        { headers: auth_headers}
+      );
+      $scope.items[taskId]['done'] = true;
+    };
 
-  $scope.completeTask = function(taskId) {
-    $http.put(baseurl + '/' + taskId,
-      { 'done': true },
-      { headers: auth_headers}
-    );
+    $scope.deleteTask = function(taskId) {
+      $http.delete(baseurl + '/' + taskId,
+        { headers: auth_headers }
+      );
+      delete $scope.items[taskId];
+    };
+
+    $scope.addTask = function() {
+      $scope.newItem.done = false;
+      $http.post(baseurl + '/', 
+        $scope.newItem,
+        { headers: auth_headers }
+      );
+      var dict_size = Object.keys($scope.items).length + 1;
+      $scope.items[dict_size] = $scope.newItem;
+      $scope.newItem = {};
+    };
+
+    $scope.setTab = function(tabId) {
+      $scope.currentTab = tabId;
+    };
+
+    $scope.isSet = function (tabId) {
+      return $scope.currentTab === tabId;
+    };
+
     $scope.fetchItems();
-  };
-
-  $scope.deleteTask = function(taskId) {
-    $http.delete(baseurl + '/' + taskId,
-      { headers: auth_headers }
-    );
-    $scope.fetchItems();
-  };
-
-  $scope.addTask = function() {
-    $scope.newItem.done = false;
-    $http.post(baseurl + '/', 
-      $scope.newItem,
-      { headers: auth_headers }
-    );
-    $scope.fetchItems();
-    $scope.newItem = {};
-  };
-}]);
+  }]);
 
