@@ -4,7 +4,7 @@ checklistApp
   .controller('checklistController', ['$scope', '$http', function($scope, $http) {
     'use strict';
 
-    $scope.items = null;
+    $scope.items = {};
     $scope.authentication = null;
     $scope.currentTab = 1;
     $scope.newItem= {};
@@ -41,9 +41,13 @@ checklistApp
       $http.post(baseurl + '/', 
         $scope.newItem,
         { headers: auth_headers }
-      );
-      var dict_size = Object.keys($scope.items).length + 1;
-      $scope.items[dict_size] = $scope.newItem;
+      ).then(function(response) {
+        for (var key in response.data) {
+          $scope.items[key] = response.data[key];
+        }
+      });
+      // var dict_size = Object.keys($scope.items).length + 1;
+      // $scope.items[dict_size] = $scope.newItem;
       $scope.newItem = {};
     };
 
