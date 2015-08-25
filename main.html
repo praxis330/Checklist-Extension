@@ -58,7 +58,20 @@
       </div>
     </div>
     <div class="container popup popup-hide" ng-show="isSet(2)">
-      <input type="text" class="form-control" placeholder="Authentication" ng-model="authentication">
+      <form class="form-inline popup-form" ng-submit="setAuthentication()">
+        <div class="row">
+          <div class="col-xs-9">
+            <div class="form-group popup-form-group">
+              <input type="text" class="form-control" placeholder="Authentication" ng-model="authentication">
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </body>
 </html>

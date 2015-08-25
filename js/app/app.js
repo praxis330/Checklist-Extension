@@ -10,12 +10,10 @@ checklistApp
     $scope.newItem= {};
 
     var baseurl = 'https://checklist-stage.herokuapp.com/api/checklist/tasks';
-    var auth_headers = {
-      Authorization: 'Basic'
-    }
+    var auth_headers = {};
 
     $scope.fetchItems = function () {
-      $http.get(baseurl, { headers: auth_headers }).then(function(response) {
+      $http.get(baseurl, { headers: $scope.getAuthenticationHeaders() }).then(function(response) {
         $scope.items = response.data;
         console.log($scope.items);
       });
@@ -24,14 +22,14 @@ checklistApp
     $scope.completeTask = function(taskId) {
       $http.put(baseurl + '/' + taskId,
         { 'done': true },
-        { headers: auth_headers}
+        { headers: $scope.getAuthenticationHeaders() }
       );
       $scope.items[taskId]['done'] = true;
     };
 
     $scope.deleteTask = function(taskId) {
       $http.delete(baseurl + '/' + taskId,
-        { headers: auth_headers }
+        { headers: $scope.getAuthenticationHeaders() }
       );
       delete $scope.items[taskId];
     };
@@ -40,7 +38,7 @@ checklistApp
       $scope.newItem.done = false;
       $http.post(baseurl + '/', 
         $scope.newItem,
-        { headers: auth_headers }
+        { headers: $scope.getAuthenticationHeaders() }
       ).then(function(response) {
         for (var key in response.data) {
           $scope.items[key] = response.data[key];
@@ -59,6 +57,23 @@ checklistApp
       return $scope.currentTab === tabId;
     };
 
+    $scope.setAuthentication = function () {
+      localStorage.authentication = $scope.authentication;
+      console.log(localStorage.authentication)
+    };
+
+    $scope.getAuthentication = function () {
+      $scope.authentication = localStorage.authentication;
+    }
+
+    $scope.getAuthenticationHeaders = function () {
+      var auth_headers = {
+        Authorization: 'Basic ' + localStorage.authentication
+      };
+      return auth_headers;
+    };
+
     $scope.fetchItems();
+    $scope.getAuthentication();
   }]);
 
