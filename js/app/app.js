@@ -1,42 +1,56 @@
-var checklistApp = angular.module('checklistApp', []);
-
-checklistApp
-  .controller('checklistController', ['$scope', '$http', function($scope, $http) {
+angular
+  .module('checklistApp', [])
+  .factory('storage', ['$window', function ($window) {
+    return {
+      memorize : function (key, value) {
+        $window.localStorage.setItem(key, value)
+      },
+      recall : function (key) {
+        return $window.localStorage.getItem(key)
+      },
+    }
+  }])
+  .controller('checklistController', ['$scope', '$http', 'storage', function($scope, $http, storage) {
     'use strict';
 
-    $scope.items = {};
-    $scope.authentication = null;
-    $scope.currentTab = 1;
-    $scope.newItem= {};
-
-    var baseurl = 'https://checklist-stage.herokuapp.com/api/checklist/tasks';
-    var auth_headers = {};
-
-    $scope.fetchItems = function () {
-      $http.get(baseurl, { headers: $scope.getAuthenticationHeaders() }).then(function(response) {
+    $scope.fetchItems = function (listName) {
+      $http.get(baseurl + listName,
+        { headers: $scope.getAuthenticationHeaders() }
+        ).then(function(response) {
         $scope.items = response.data;
         console.log($scope.items);
       });
     };
 
-    $scope.completeTask = function(taskId) {
-      $http.put(baseurl + '/' + taskId,
+    $scope.fetchList = function () {
+      if ($scope.isSet(1)) {
+        $scope.items = {};
+        $scope.fetchItems($scope.firstList)
+      }
+      else if ($scope.isSet(2)) {
+        $scope.items = {};
+        $scope.fetchItems($scope.secondList)
+      }
+    };
+
+    $scope.completeTask = function (listName, taskId) {
+      $http.put(baseurl + listName + '/' + taskId,
         { 'done': true },
         { headers: $scope.getAuthenticationHeaders() }
       );
       $scope.items[taskId]['done'] = true;
     };
 
-    $scope.deleteTask = function(taskId) {
-      $http.delete(baseurl + '/' + taskId,
+    $scope.deleteTask = function (listName, taskId) {
+      $http.delete(baseurl + listName + '/' + taskId,
         { headers: $scope.getAuthenticationHeaders() }
       );
       delete $scope.items[taskId];
     };
 
-    $scope.addTask = function() {
+    $scope.addTask = function (listName) {
       $scope.newItem.done = false;
-      $http.post(baseurl + '/', 
+      $http.post(baseurl + listName + '/', 
         $scope.newItem,
         { headers: $scope.getAuthenticationHeaders() }
       ).then(function(response) {
@@ -44,36 +58,36 @@ checklistApp
           $scope.items[key] = response.data[key];
         }
       });
-      // var dict_size = Object.keys($scope.items).length + 1;
-      // $scope.items[dict_size] = $scope.newItem;
       $scope.newItem = {};
     };
 
-    $scope.setTab = function(tabId) {
+    $scope.setTab = function (tabId) {
       $scope.currentTab = tabId;
+      $scope.fetchList();
     };
 
     $scope.isSet = function (tabId) {
       return $scope.currentTab === tabId;
     };
 
-    $scope.setAuthentication = function () {
-      localStorage.authentication = $scope.authentication;
-      console.log(localStorage.authentication)
-    };
-
-    $scope.getAuthentication = function () {
-      $scope.authentication = localStorage.authentication;
-    }
-
     $scope.getAuthenticationHeaders = function () {
       var auth_headers = {
-        Authorization: 'Basic ' + localStorage.authentication
+        Authorization: 'Basic ' + $scope.authentication
       };
       return auth_headers;
     };
 
-    $scope.fetchItems();
-    $scope.getAuthentication();
+    var baseurl = 'http://localhost:5000/api/checklist/';
+    var auth_headers = {};
+
+    $scope.storage = storage
+    $scope.items = {};
+    $scope.firstList = storage.recall('firstList')
+    $scope.secondList = storage.recall('secondList')
+    $scope.authentication = storage.recall('authentication');
+    $scope.currentTab = 1;
+    $scope.newItem= {};
+
+    $scope.fetchItems('tasks');
   }]);
 
