@@ -1,0 +1,34 @@
+<form class="form-inline popup-form" ng-submit="addTask(listNumber)">
+  <div class="row">
+    <div class="col-xs-9">
+      <div class="form-group popup-form-group">
+        <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="itemName">
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="form-group">
+        <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>
+<hr class="divider popup-line">
+<div class="panel panel-default popup-panel" ng-repeat="(id, item) in items" ng-class="item.done == true ? 'panel-success' : 'panel-danger'">
+  <div class="panel-heading popup-panel-body">
+    <div class="row">
+      <div class="col-xs-8">
+        {{ item.name }}
+      </div>
+      <div class="pull-right col-xs-4">
+        <div style="float:right">
+          <button type="button" class="btn btn-default btn-md" ng-click="completeTask(listNumber, id)">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(listNumber, id)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

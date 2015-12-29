@@ -1,8 +1,9 @@
 <html ng-app="checklistApp">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/checklist/checklist-ext.css">
-  <script src="js/lib/angular.min.js"></script>
-  <script src="js/app/app.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="dist/Checklist-Extension.min.js"></script>
   <body ng-controller="checklistController">
     <div class="container">
       <div class="row title-bar">
@@ -29,76 +30,10 @@
       </div>
     </div>
     <div class="container popup popup-hide" ng-show="isSet(1)">
-      <form class="form-inline popup-form" ng-submit="addTask(firstList)">
-        <div class="row">
-          <div class="col-xs-9">
-            <div class="form-group popup-form-group">
-              <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="newItem.name">
-            </div>
-          </div>
-          <div class="col-xs-3">
-            <div class="form-group">
-              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
-            </div>
-          </div>
-        </div>
-      </form>
-      <hr class="divider popup-line">
-      <div class="panel panel-default popup-panel" ng-repeat="(id, item) in items" ng-class="item.done == true ? 'panel-success' : 'panel-danger'">
-        <div class="panel-heading popup-panel-body">
-          <div class="row">
-            <div class="col-xs-8">
-              {{ item.name }}
-            </div>
-            <div class="pull-right col-xs-4">
-              <div style="float:right">
-                <button type="button" class="btn btn-default btn-md" ng-click="completeTask(firstList, id)">
-                  <span class="glyphicon glyphicon-ok"></span>
-                </button>
-                <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(firstList, id)">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <checklist-detail list-number="firstList" items="items" item-name="itemName" add-task="addTask()" complete-task="completeTask()" delete-task="deleteTask()"></checklist-detail>
     </div>
     <div class="container popup popup-hide" ng-show="isSet(2)">
-      <form class="form-inline popup-form" ng-submit="addTask(secondList)">
-        <div class="row">
-          <div class="col-xs-9">
-            <div class="form-group popup-form-group">
-              <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="newItem.name">
-            </div>
-          </div>
-          <div class="col-xs-3">
-            <div class="form-group">
-              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
-            </div>
-          </div>
-        </div>
-      </form>
-      <hr class="divider popup-line">
-      <div class="panel panel-default popup-panel" ng-repeat="(id, item) in items" ng-class="item.done == true ? 'panel-success' : 'panel-danger'">
-        <div class="panel-heading popup-panel-body">
-          <div class="row">
-            <div class="col-xs-8">
-              {{ item.name }}
-            </div>
-            <div class="pull-right col-xs-4">
-              <div style="float:right">
-                <button type="button" class="btn btn-default btn-md" ng-click="completeTask(secondList, id)">
-                  <span class="glyphicon glyphicon-ok"></span>
-                </button>
-                <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(secondList, id)">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <checklist-detail list-number="secondList" items="items" item-name="itemName" add-task="addTask()", complete-task="completeTask()" delete-task="deleteTask()"></checklist-detail>
     </div>
     <div class="container popup popup-hide" ng-show="isSet(3)">
       <form class="form-inline popup-form" ng-submit="storage.memorize('authentication', authentication)">
