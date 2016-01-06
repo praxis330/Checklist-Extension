@@ -1,8 +1,8 @@
-<form class="form-inline popup-form" ng-submit="addTask(listNumber)">
+<form class="form-inline popup-form" ng-submit="addTask(getCurrentList())">
   <div class="row">
     <div class="col-xs-9">
       <div class="form-group popup-form-group">
-        <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="itemName">
+        <input type="text" id="itemName" class="form-control" placeholder="Item name" ng-model="$parent.itemName">
       </div>
     </div>
     <div class="col-xs-3">
@@ -21,10 +21,10 @@
       </div>
       <div class="pull-right col-xs-4">
         <div style="float:right">
-          <button type="button" class="btn btn-default btn-md" ng-click="completeTask(listNumber, id)">
+          <button type="button" class="btn btn-default btn-md" ng-click="completeTask(getCurrentList(), id)">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
-          <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(listNumber, id)">
+          <button type="button" class="btn btn-default btn-md" ng-click="deleteTask(getCurrentList(), id)">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
         </div>

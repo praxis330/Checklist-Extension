@@ -1,12 +1,21 @@
 angular.module('checklistApp')
-  .controller('checklistController', ['$scope', '$http', 'storage', 'Task', function($scope, $http, storage, Task) {
+  .controller('checklistController', ['$scope', '$http', '$q', 'storage', 'Task', 'Profile', function($scope, $http, $q, storage, Task, Profile) {
     'use strict';
 
-    $scope.fetchItems = function (listName) {
+    $scope.fetchListItems = function (listName) {
       Task.getList({listName: listName}).$promise.then(
         function (response) {
           $scope.items = response;
         });
+    };
+
+    $scope.fetchList = function () {
+      $scope.items = {}
+      $scope.fetchListItems($scope.getCurrentList())
+    };
+
+    $scope.getCurrentList = function () {
+      return $scope.profile[$scope.currentTab - 1]
     };
 
     $scope.completeTask = function (listName, taskId) {
@@ -40,15 +49,23 @@ angular.module('checklistApp')
       });
     };
 
-    $scope.fetchList = function () {
-      if ($scope.isSet(1)) {
-        $scope.items = {};
-        $scope.fetchItems($scope.firstList)
-      }
-      else if ($scope.isSet(2)) {
-        $scope.items = {};
-        $scope.fetchItems($scope.secondList)
-      }
+    $scope.getProfile = function () {
+      var deferred = $q.defer()
+      Profile.get(
+        {profileName: $scope.profileName}
+      ).$promise.then(function (response) {
+        deferred.resolve($scope.profile = response['lists'])
+      });
+      return deferred.promise;
+    };
+
+    $scope.updateProfile = function () {
+      Profile.update(
+        {profileName: $scope.profileName},
+        {lists: $scope.profile}
+      ).$promise.then(function (response) {
+        $scope.profile = response['lists']
+      });
     };
 
     $scope.setTab = function (tabId) {
@@ -61,9 +78,13 @@ angular.module('checklistApp')
     };
 
     $scope.items = {};
-    $scope.firstList = storage.recall('firstList')
-    $scope.secondList = storage.recall('secondList')
+    $scope.itemName = null;
+    $scope.storage = storage
+    $scope.authentication = storage.recall('authentication')
+    $scope.profileName = storage.recall('profileName')
     $scope.currentTab = 1;
+    $scope.getProfile().then(function () {
+      $scope.fetchList()
+    });
 
-    $scope.fetchItems('tasks');
   }]);
