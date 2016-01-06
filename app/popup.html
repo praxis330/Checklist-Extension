@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="checklistApp">
+  <head>
+    <meta charset="utf-8">
+    <!-- build:css styles/popup-vendor.css -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css styles/main.css -->
+    <link href="styles/main" rel="stylesheet">
+    <!-- endbuild -->
+  </head>
+  <body ng-controller="checklistController">
+    <div class="container">
+      <div class="row title-bar">
+        <ul class="nav nav-tabs">
+          <li role="presentation" ng-class="{active:isSet(1)}">
+            <a href='#checklist' ng-click="setTab(1)">
+              Checklist 1
+            </a>
+          </li>
+          <li role="presentation" ng-class="{active:isSet(2)}">
+            <a href='#checklist' ng-click="setTab(2)">
+              Checklist 2
+            </a>
+          </li>
+          <li role="presentation" ng-class="{active:isSet(3)}">
+            <a href='#settings' ng-click="setTab(3)">Settings</a>
+          </li>
+          <li role="presentation">
+            <div class="btn-container pull-right">
+              <button class="btn btn-default popup-btn" ng-click="fetchList()">Refresh</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div ng-repeat="list in profile|limitTo:2 track by $index">
+      <div class="container popup popup-hide" ng-show="isSet($index + 1)">
+        <checklist-detail></checklist-detail>
+      </div>
+    </div>
+    <div class="container popup popup-hide" ng-show="isSet(3)">
+      <form class="form-inline popup-form" ng-submit="storage.memorize('authentication', authentication)">
+        <div class="row">
+          <div class="col-xs-12">
+            <h5>Authentication</h5>
+          </div>
+          <div class="col-xs-9">
+            <div class="form-group popup-form-group">
+            <input type="text" class="form-control" placeholder="Enter base64 encoded credentials" ng-model="authentication">
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <h5>Profile Name</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-9">
+            <div class="form-group popup-form-group">
+              <input type="text" class="form-control" placeholder="Enter profile name" ng-model="profileName" ng-change="storage.memorize('profileName', profileName)">
+            </div>
+          </div>
+        </div>
+        <hr class="divider popup-line">
+        <h4>Profile</h4>
+        <div ng-model="profile">
+          <p ng-repeat="list in profile track by $index">{{ profile[$index] }}</p>
+            <div class="row">
+              <div class="col-xs-9">
+                <div class="form-group">
+                  <input type="text" class="form-control" ng-model="profile[$index]" ng-change="updateProfile()">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- build:js scripts/popup-vendor.js -->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-resource/angular-resource.js"></script>
+    <!-- bower:js -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/popup.js -->
+    <script src="scripts/index.js"></script>
+    <script src="scripts/storageFactory.js"></script>
+    <script src="scripts/taskResourceFactory.js"></script>
+    <script src="scripts/profileResourceFactory.js"></script>
+    <script src="scripts/checklistDetailDirective.js"></script>
+    <script src="scripts/checklistController.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

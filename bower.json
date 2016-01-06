@@ -1,0 +1,23 @@
+{
+  "name": "Checklist-Extension",
+  "homepage": "https://github.com/praxis330/Checklist-Extension",
+  "authors": [
+    "Cedric Cordenier <praxis@users.noreply.github.com>"
+  ],
+  "description": "Front-end for checklist API.",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-resource": "~1.4.8",
+    "bootstrap": "~3.3.6",
+    "grunt": "~0.4.5",
+    "angular-ui-sortable": "~0.13.4"
+  },
+  "devDependencies": {
+    "chai": "~3.4.2",
+    "mocha": "~2.3.4"
+  }
+}
