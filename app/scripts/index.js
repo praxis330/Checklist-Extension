@@ -1,2 +1,2 @@
-angular.module('checklistApp', ['ngResource'])
+angular.module('checklistApp', ['ngResource', 'ui.sortable'])
 

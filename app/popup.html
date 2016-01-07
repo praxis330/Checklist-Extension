@@ -66,19 +66,24 @@
         <div class="row">
           <div class="col-xs-9">
             <div class="form-group popup-form-group">
-              <input type="text" class="form-control" placeholder="Enter profile name" ng-model="profileName" ng-change="storage.memorize('profileName', profileName)">
+              <input type="text" class="form-control" placeholder="Enter profile name" ng-model="profileName" ng-model-options="{ updateOn: 'blur' }" ng-change="storage.memorize('profileName', profileName)">
             </div>
           </div>
         </div>
         <hr class="divider popup-line">
         <h4>Profile</h4>
-        <div ng-model="profile">
-          <p ng-repeat="list in profile track by $index">{{ profile[$index] }}</p>
-            <div class="row">
+          <div ui-sortable="sortableOptions" ng-model="profile">
+            <div ng-repeat="list in profile track by $index" class="row">
               <div class="col-xs-9">
-                <div class="form-group">
-                  <input type="text" class="form-control" ng-model="profile[$index]" ng-change="updateProfile()">
+                <div class="input-group form-group">
+                  <input type="text" ng-model="profile[$index]" ng-model-options="{ updateOn: 'blur' }" class="form-control" ng-change="updateProfile()" aria-describedby="basic-addon">
+                  <span id="basic-addon" class="input-group-addon">
+                    <span class="glyphicon glyphicon-move"></span>
+                  </span>
                 </div>
+              </div>
+              <div class="col-xs-3">
+                <button ng-if="$last" ng-click="addListToProfile()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
             </div>
           </div>
@@ -86,8 +91,11 @@
       </form>
     </div>
     <!-- build:js scripts/popup-vendor.js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/bower_components/angular-ui-sortable/sortable.js"></script>
     <!-- bower:js -->
     <!-- endbower -->
     <!-- endbuild -->
