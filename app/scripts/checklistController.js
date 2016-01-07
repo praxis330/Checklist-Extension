@@ -68,6 +68,17 @@ angular.module('checklistApp')
       });
     };
 
+    $scope.addListToProfile = function () {
+      var newList = ''
+      $scope.profile.push(newList)
+    }
+
+    $scope.sortableOptions = {
+      update : function (event) {
+        $scope.updateProfile()
+      }
+    };
+
     $scope.setTab = function (tabId) {
       $scope.currentTab = tabId;
       $scope.fetchList();

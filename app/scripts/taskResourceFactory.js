@@ -1,6 +1,6 @@
 angular.module('checklistApp')
   .factory('Task', ['$resource', 'storage', function($resource, storage) {
-    return $resource('http://localhost:8000/api/checklist/:listName/:id', { listName: '@listName', id: '@id' }, {
+    return $resource('http://checklist-stage.herokuapp.com/api/checklist/:listName/:id', { listName: '@listName', id: '@id' }, {
       getList: {
         method: 'GET',
         headers: {
