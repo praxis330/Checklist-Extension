@@ -12,84 +12,18 @@
     <!-- endbuild -->
   </head>
   <body ng-controller="checklistController">
-    <div class="container">
-      <div class="row title-bar">
-        <ul class="nav nav-tabs">
-          <li role="presentation" ng-class="{active:isSet(1)}">
-            <a href='#checklist' ng-click="setTab(1)">
-              Checklist 1
-            </a>
-          </li>
-          <li role="presentation" ng-class="{active:isSet(2)}">
-            <a href='#checklist' ng-click="setTab(2)">
-              Checklist 2
-            </a>
-          </li>
-          <li role="presentation" ng-class="{active:isSet(3)}">
-            <a href='#settings' ng-click="setTab(3)">Settings</a>
-          </li>
-          <li role="presentation">
-            <div class="btn-container pull-right">
-              <button class="btn btn-default popup-btn" ng-click="fetchList()">Refresh</button>
-            </div>
-          </li>
-        </ul>
-      </div>
+    <div ng-if="loading">
+      <h2>Loading...</h2>
     </div>
-    <div ng-repeat="list in profile|limitTo:2 track by $index">
-      <div class="container popup popup-hide" ng-show="isSet($index + 1)">
+    <tabset>
+      <div ng-repeat="list in profile | limitTo:2 track by $index">
         <checklist-detail></checklist-detail>
       </div>
-    </div>
-    <div class="container popup popup-hide" ng-show="isSet(3)">
-      <form class="form-inline popup-form" ng-submit="storage.memorize('authentication', authentication)">
-        <div class="row">
-          <div class="col-xs-12">
-            <h5>Authentication</h5>
-          </div>
-          <div class="col-xs-9">
-            <div class="form-group popup-form-group">
-            <input type="text" class="form-control" placeholder="Enter base64 encoded credentials" ng-model="authentication">
-            </div>
-          </div>
-          <div class="col-xs-3">
-            <div class="form-group">
-              <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <h5>Profile Name</h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-9">
-            <div class="form-group popup-form-group">
-              <input type="text" class="form-control" placeholder="Enter profile name" ng-model="profileName" ng-model-options="{ updateOn: 'blur' }" ng-change="storage.memorize('profileName', profileName)">
-            </div>
-          </div>
-        </div>
-        <hr class="divider popup-line">
-        <h4>Profile</h4>
-          <div ui-sortable="sortableOptions" ng-model="profile">
-            <div ng-repeat="list in profile track by $index" class="row">
-              <div class="col-xs-9">
-                <div class="input-group form-group">
-                  <input type="text" ng-model="profile[$index]" ng-model-options="{ updateOn: 'blur' }" class="form-control" ng-change="updateProfile()" aria-describedby="basic-addon">
-                  <span id="basic-addon" class="input-group-addon">
-                    <span class="glyphicon glyphicon-move"></span>
-                  </span>
-                </div>
-              </div>
-              <div class="col-xs-3">
-                <button ng-if="$last" ng-click="addListToProfile()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+      <!-- Ugly hack so that settings doesn't become the first tab -->
+      <div ng-repeat="list in profile | limitTo: 1">
+        <settings></settings>
+      </div>
+    </tabset>
     <!-- build:js scripts/popup-vendor.js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
@@ -102,10 +36,13 @@
 
     <!-- build:js scripts/popup.js -->
     <script src="scripts/index.js"></script>
+    <script src="scripts/capitaliseFilter.js"></script>
     <script src="scripts/storageFactory.js"></script>
     <script src="scripts/taskResourceFactory.js"></script>
     <script src="scripts/profileResourceFactory.js"></script>
+    <script src="scripts/tabsetDirective.js"></script>
     <script src="scripts/checklistDetailDirective.js"></script>
+    <script src="scripts/settingsDirective.js"></script>
     <script src="scripts/checklistController.js"></script>
     <!-- endbuild -->
   </body>

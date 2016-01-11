@@ -1,0 +1,48 @@
+<div class="container popup popup-hide" ng-show="active">
+  <form class="form-inline popup-form" ng-submit="storage.memorize('authentication', authentication)">
+    <div class="row">
+      <div class="col-xs-12">
+        <h5>Authentication</h5>
+      </div>
+      <div class="col-xs-9">
+        <div class="form-group popup-form-group">
+        <input type="text" class="form-control" placeholder="Enter base64 encoded credentials" ng-model="authentication">
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="form-group">
+          <button class="btn btn-default btn-primary pull-left" type="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h5>Profile Name</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-9">
+        <div class="form-group popup-form-group">
+          <input type="text" class="form-control" placeholder="Enter profile name" ng-model="profileName" ng-model-options="{ updateOn: 'blur' }" ng-change="storage.memorize('profileName', profileName)">
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr class="divider popup-line">
+  <h4>Profile</h4>
+  <div ui-sortable="sortableOptions" ng-model="profile">
+    <div ng-repeat="list in profile track by $index" class="row">
+      <div class="col-xs-9">
+        <div class="input-group form-group">
+          <input type="text" ng-model="profile[$index]" ng-model-options="{ updateOn: 'blur' }" class="form-control" ng-change="updateProfile()" aria-describedby="basic-addon">
+          <span id="basic-addon" class="input-group-addon">
+            <span class="glyphicon glyphicon-move"></span>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <button ng-if="$last" ng-click="addListToProfile()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+    </div>
+  </div>
+</div>

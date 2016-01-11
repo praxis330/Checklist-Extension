@@ -9,22 +9,33 @@ angular.module('checklistApp')
         });
     };
 
+    $scope.getCurrentList = function () {
+      var tabs = $scope.tabset.tabs
+      for (var i=0; i < tabs.length; i++) {
+        var tab = tabs[i]
+        if (tab.active) {
+          return tab.list
+        };
+      };
+    };
+
     $scope.fetchList = function () {
       $scope.items = {}
       $scope.fetchListItems($scope.getCurrentList())
     };
 
-    $scope.getCurrentList = function () {
-      return $scope.profile[$scope.currentTab - 1]
-    };
-
-    $scope.completeTask = function (listName, taskId) {
+    $scope._updateTaskStatus = function (listName, taskId, taskStatus) {
       Task.update(
         {listName: listName, id: taskId},
-        {done: true}
+        {done: taskStatus}
       ).$promise.then(function (response) {
         $scope.items[taskId] = response[taskId];
-      })
+      });
+    };
+
+    $scope.toggleTaskStatus = function (listName, taskId) {
+      var newTaskStatus = !$scope.items[taskId].done
+      $scope._updateTaskStatus(listName, taskId, newTaskStatus)
     };
 
     $scope.deleteTask = function (listName, taskId) {
@@ -79,23 +90,13 @@ angular.module('checklistApp')
       }
     };
 
-    $scope.setTab = function (tabId) {
-      $scope.currentTab = tabId;
-      $scope.fetchList();
-    };
-
-    $scope.isSet = function (tabId) {
-      return $scope.currentTab === tabId;
-    };
-
     $scope.items = {};
     $scope.itemName = null;
     $scope.storage = storage
     $scope.authentication = storage.recall('authentication')
     $scope.profileName = storage.recall('profileName')
-    $scope.currentTab = 1;
     $scope.getProfile().then(function () {
-      $scope.fetchList()
+      $scope.fetchListItems($scope.profile[0]);
     });
 
   }]);
