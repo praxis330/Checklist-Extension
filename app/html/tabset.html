@@ -1,0 +1,20 @@
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"
+      ng-repeat="tab in tabset.tabs track by $index"
+      ng-class="{'active': tab.active}">
+
+      <a href=""
+        role="tab"
+        ng-click="tabset.select(tab)">{{ tab.header | capitalise }}</a>
+    </li>
+    <li role="presentation">
+      <div class="btn-container pull-right">
+        <button class="btn btn-default popup-btn" ng-click="fetchList()">Refresh</button>
+      </div>
+    </li>
+  </ul>
+
+  <ng-transclude>
+  </ng-transclude>
+</div>
